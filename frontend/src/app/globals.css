@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Self-hosted via @fontsource (see layout.tsx imports) rather than
+     next/font/google, so production builds never need network access to
+     fonts.googleapis.com — some CI/Docker environments block it, which
+     otherwise breaks the build entirely. */
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-stone-line;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink font-body antialiased;
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-gold-400/30 text-ink;
+  }
+
+  /* visible keyboard focus, always */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid theme("colors.red.500");
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply text-eyebrow uppercase tracking-wide3 text-gold-500 font-body font-medium;
+  }
+
+  .eyebrow-on-dark {
+    @apply text-eyebrow uppercase tracking-wide3 text-gold-300 font-body font-medium;
+  }
+
+  .hairline {
+    @apply border-t border-stone-line;
+  }
+
+  .hairline-dark {
+    @apply border-t border-stone-lineDark;
+  }
+
+  .container-luxe {
+    @apply mx-auto max-w-content px-6 md:px-10 lg:px-16;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center
+           h-14 px-8
+           gap-2
+           bg-red-500 text-cream
+           text-sm uppercase tracking-[0.08em] font-medium
+           transition-all duration-500 ease-luxury
+           hover:bg-ink hover:text-gold-300
+           relative overflow-hidden;
+  }
+  
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center
+           h-14 px-8
+           gap-2
+           border border-cream/60 text-cream
+           text-sm uppercase tracking-[0.08em] font-medium
+           transition-all duration-500 ease-luxury
+           hover:bg-cream hover:text-ink;
+  }
+  
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center
+           h-14 px-8
+           gap-2
+           border border-ink text-ink
+           text-sm uppercase tracking-[0.08em] font-medium
+           transition-all duration-500 ease-luxury
+           hover:bg-ink hover:text-cream;
+  }
+
+  .link-underline {
+    @apply relative inline-block after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0
+           after:bg-current after:transition-all after:duration-500 after:ease-luxury
+           hover:after:w-full;
+  }
+
+  .input-luxe {
+    @apply w-full border border-stone-line bg-cream px-4 py-3 text-sm text-ink
+           placeholder:text-ink/30 transition-colors duration-300
+           focus:border-red-400 focus:outline-none;
+  }
+}

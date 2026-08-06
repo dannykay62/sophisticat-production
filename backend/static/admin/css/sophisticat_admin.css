@@ -1,0 +1,122 @@
+:root {
+  --primary: #3d0b0b;
+  --primary-fg: #faf7f1;
+  --accent: #a6701f;
+
+  --header-color: #faf7f1;
+  --header-branding-color: #a6701f;
+  --header-bg: #3d0b0b;
+  --header-link-color: #faf7f1;
+
+  --breadcrumbs-fg: #f3e9dc;
+  --breadcrumbs-link-fg: #a6701f;
+  --breadcrumbs-bg: #4a1010;
+
+  --link-fg: #ff073a;
+  --link-hover-color: #e6002e;
+  --link-selected-fg: #ff073a;
+
+  --selected-bg: #ffebec;
+  --selected-row: #ffebec;
+
+  --button-bg: #a6701f;
+  --button-fg: #3d0b0b;
+  --button-hover-bg: #ff073a;
+  --default-button-bg: #3d0b0b;
+  --default-button-hover-bg: #4a1010;
+
+  --font-family-primary: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#header {
+  border-bottom: 2px solid var(--accent);
+}
+
+#branding h1 {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#branding h1 a:link,
+#branding h1 a:visited {
+  color: var(--header-branding-color);
+}
+
+div.breadcrumbs {
+  border-bottom: 1px solid rgba(201, 162, 75, 0.25);
+}
+
+.module h2, .module caption, .inline-group h2 {
+  background: var(--primary);
+  letter-spacing: 0.04em;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.object-tools a {
+  border-radius: 3px;
+  background: var(--primary);
+}
+
+.object-tools a:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+#changelist-filter {
+  border-radius: 4px;
+}
+
+.dashboard .module table th {
+  width: 100%;
+}
+
+.sophisticat-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.sophisticat-stat-card {
+  background: var(--primary);
+  color: var(--primary-fg);
+  border-radius: 6px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 3px solid var(--accent);
+}
+
+.sophisticat-stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.sophisticat-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(250, 246, 239, 0.65);
+}
+
+.sophisticat-stat-warning {
+  border-left-color: #dc2626;
+}
+
+.sophisticat-stat-warning .sophisticat-stat-value {
+  color: #f87171;
+}
+
+.sophisticat-stat-accent {
+  border-left-color: #d97706;
+}

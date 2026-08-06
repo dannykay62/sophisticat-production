@@ -1,0 +1,33 @@
+{% extends "emails/base.html" %}
+
+{% block title %}Order Update — {{ order.order_number }} is {{ status_label }}{% endblock %}
+{% block preheader %}{{ headline }}{% endblock %}
+
+{% block content %}
+<h1 style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:26px;color:#3D0B0B;">
+  {{ status_label }}
+</h1>
+
+<p style="margin:0 0 16px;font-size:15px;line-height:1.6;">Hi {{ order.full_name }},</p>
+
+<p style="margin:0 0 28px;font-size:15px;line-height:1.6;">{{ headline }}</p>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 28px;font-family:Helvetica,Arial,sans-serif;font-size:13px;">
+  <tr>
+    <td style="padding:4px 0;color:#6B5A4A;">Order number</td>
+    <td style="padding:4px 0;text-align:right;color:#3D0B0B;font-weight:bold;">{{ order.order_number }}</td>
+  </tr>
+  <tr>
+    <td style="padding:4px 0;color:#6B5A4A;">Tracking number</td>
+    <td style="padding:4px 0;text-align:right;color:#3D0B0B;">{{ order.tracking_number }}</td>
+  </tr>
+</table>
+
+{% if note %}
+<p style="margin:0 0 28px;padding:14px 16px;background-color:#F3E9DC;border-left:3px solid #A6701F;font-size:14px;line-height:1.6;color:#3D0B0B;">
+  {{ note }}
+</p>
+{% endif %}
+
+{% include "emails/_button.html" with url=tracking_url label="Track Your Order" %}
+{% endblock %}

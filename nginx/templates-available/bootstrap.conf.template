@@ -1,0 +1,194 @@
+# -----------------------------------------------------------------------------
+# Bootstrap Configuration (HTTP Only)
+#
+# Use this configuration ONLY for the initial deployment before obtaining
+# a Let's Encrypt SSL certificate.
+#
+# First deployment:
+#
+#   cp nginx/templates-available/bootstrap.conf.template \
+#      nginx/templates/default.conf.template
+#
+# Start the stack and issue the certificate.
+#
+# Once the certificate has been issued:
+#
+#   cp nginx/templates-available/production.conf.template \
+#      nginx/templates/default.conf.template
+#
+#   docker compose -f docker-compose.prod.yml restart nginx
+#
+# ${DOMAIN} is automatically substituted from the DOMAIN environment variable
+# by the official Nginx Docker image.
+# -----------------------------------------------------------------------------
+
+server {
+
+    listen 80;
+    server_name ${DOMAIN} www.${DOMAIN};
+
+    # Maximum upload size
+    client_max_body_size 20M;
+
+    # -------------------------------------------------------------------------
+    # Let's Encrypt ACME Challenge
+    # -------------------------------------------------------------------------
+
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    # -------------------------------------------------------------------------
+    # Static Files
+    # -------------------------------------------------------------------------
+
+    location /static/ {
+        alias /app/staticfiles/;
+
+        expires 365d;
+        add_header Cache-Control "public, immutable";
+
+        access_log off;
+    }
+
+    # -------------------------------------------------------------------------
+    # Media Files
+    # -------------------------------------------------------------------------
+
+    location /media/ {
+        alias /app/media/;
+
+        expires 7d;
+        add_header Cache-Control "public";
+
+        access_log off;
+    }
+
+    # -------------------------------------------------------------------------
+    # Django API
+    # -------------------------------------------------------------------------
+
+    location /api/ {
+
+        limit_req zone=general burst=40 nodelay;
+
+        proxy_pass http://backend:8000;
+
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        proxy_buffering on;
+        proxy_buffers 16 16k;
+        proxy_buffer_size 32k;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+    }
+
+    # -------------------------------------------------------------------------
+    # Authentication Endpoints
+    # -------------------------------------------------------------------------
+
+    location ~ ^/api/(auth/login|auth/register|auth/password-reset)/ {
+
+        limit_req zone=auth burst=5 nodelay;
+
+        proxy_pass http://backend:8000;
+
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+    }
+
+    # -------------------------------------------------------------------------
+    # Django Admin
+    # -------------------------------------------------------------------------
+
+    location /admin/ {
+
+        limit_req zone=general burst=20 nodelay;
+
+        proxy_pass http://backend:8000;
+
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+    }
+
+    # -------------------------------------------------------------------------
+    # Health Check
+    # -------------------------------------------------------------------------
+
+    location /health/ {
+
+        proxy_pass http://backend:8000;
+
+        proxy_http_version 1.1;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        access_log off;
+    }
+
+    # -------------------------------------------------------------------------
+    # Next.js Frontend
+    # -------------------------------------------------------------------------
+
+    location / {
+
+        limit_req zone=general burst=40 nodelay;
+
+        proxy_pass http://frontend:3000;
+
+        proxy_http_version 1.1;
+        proxy_redirect off;
+
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+    }
+
+    # -------------------------------------------------------------------------
+    # Block Hidden Files
+    # -------------------------------------------------------------------------
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+
+    # -------------------------------------------------------------------------
+    # Security Headers
+    #
+    # HSTS is intentionally NOT enabled here because this configuration
+    # serves plain HTTP during the initial certificate bootstrap.
+    # -------------------------------------------------------------------------
+
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+
+}

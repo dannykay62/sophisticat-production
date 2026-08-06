@@ -1,0 +1,21 @@
+pASSWORD hASH
+lOGGING
+
+local media folder
+
+
+Security Headers
+
+You're missing a proper Content Security Policy (CSP).
+
+For a production ecommerce site, I strongly recommend using django-csp and defining a restrictive policy that
+allows only the origins you need (your own domain, Cloudinary, payment providers, fonts, etc.). This 
+significantly reduces the impact of XSS attacks.
+
+
+
+essential before launch:
+
+Structured logging (LOGGING configuration)
+Error monitoring (Sentry or similar)
+Content Security Policy (CSP) using django-csp

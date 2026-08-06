@@ -1,0 +1,38 @@
+{% extends "admin/index.html" %}
+
+{% block content_title %}
+  <h1>Store Overview</h1>
+{% endblock %}
+
+{% block content %}
+  {% if sophisticat_stats %}
+    <div class="sophisticat-stats-grid">
+      <div class="sophisticat-stat-card">
+        <span class="sophisticat-stat-value">{{ sophisticat_stats.total_products }}</span>
+        <span class="sophisticat-stat-label">Active Products</span>
+      </div>
+      <div class="sophisticat-stat-card">
+        <span class="sophisticat-stat-value">{{ sophisticat_stats.total_orders }}</span>
+        <span class="sophisticat-stat-label">Total Orders</span>
+      </div>
+      <div class="sophisticat-stat-card sophisticat-stat-accent">
+        <span class="sophisticat-stat-value">{{ sophisticat_stats.pending_orders }}</span>
+        <span class="sophisticat-stat-label">Processing</span>
+      </div>
+      <div class="sophisticat-stat-card">
+        <span class="sophisticat-stat-value">&#8358;{{ sophisticat_stats.total_revenue|floatformat:0 }}</span>
+        <span class="sophisticat-stat-label">Revenue (Paid)</span>
+      </div>
+      <div class="sophisticat-stat-card {% if sophisticat_stats.low_stock > 0 %}sophisticat-stat-warning{% endif %}">
+        <span class="sophisticat-stat-value">{{ sophisticat_stats.low_stock }}</span>
+        <span class="sophisticat-stat-label">Low Stock (&le;10)</span>
+      </div>
+      <div class="sophisticat-stat-card {% if sophisticat_stats.unread_messages > 0 %}sophisticat-stat-warning{% endif %}">
+        <span class="sophisticat-stat-value">{{ sophisticat_stats.unread_messages }}</span>
+        <span class="sophisticat-stat-label">Unread Messages</span>
+      </div>
+    </div>
+  {% endif %}
+
+  {{ block.super }}
+{% endblock %}
