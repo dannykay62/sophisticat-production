@@ -33,6 +33,7 @@ export default function ProductForm({ product }: { product?: AdminProductDetail 
   const [isNew, setIsNew] = useState(product?.is_new ?? false);
 
   const [images, setImages] = useState(product?.images ?? []);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -80,14 +81,24 @@ export default function ProductForm({ product }: { product?: AdminProductDetail 
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
+  
     if (!file || !product) return;
+  
+    setError(null);
+  
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
     setUploading(true);
+  
     try {
       const img = await uploadProductImage(product.id, file);
       setImages((prev) => [...prev, img]);
+      setImagePreview(null);
     } catch (err) {
+      setImagePreview(null);
       setError(err instanceof Error ? err.message : "Failed to upload image.");
     } finally {
+      URL.revokeObjectURL(previewUrl);
       setUploading(false);
       e.target.value = "";
     }
@@ -178,6 +189,22 @@ export default function ProductForm({ product }: { product?: AdminProductDetail 
         <Card>
           <p className="mb-3 text-xs uppercase tracking-wide2 text-ink/40">Images</p>
           <div className="flex flex-wrap gap-3">
+            {imagePreview && (
+              <div className="relative h-24 w-24 overflow-hidden border border-stone-line">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imagePreview}
+                  alt="Selected image preview"
+                  className="h-full w-full object-cover"
+                />
+                {uploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <span className="text-[10px] font-medium text-white">Uploading…</span>
+                  </div>
+                )}
+              </div>
+            )}
+          
             {images.map((img) => (
               <div key={img.id} className="group relative h-24 w-24 overflow-hidden border border-stone-line">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

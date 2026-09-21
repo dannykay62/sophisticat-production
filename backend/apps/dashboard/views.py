@@ -124,6 +124,8 @@ class AdminProductViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return AdminProductListSerializer
+        if self.action == "upload_image":
+            return AdminProductImageSerializer
         return AdminProductDetailSerializer
 
     @action(detail=True, methods=["post"])
