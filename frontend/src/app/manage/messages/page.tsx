@@ -34,7 +34,7 @@ export default function AdminMessagesPage() {
       else params.set(key, value);
     });
     if (!("page" in next)) params.delete("page");
-    router.push(`/admin/messages?${params.toString()}`);
+    router.push(`/manage/messages?${params.toString()}`);
   }
 
   async function handleResolve(msg: AdminContactMessage) {
@@ -121,3 +121,5 @@ export default function AdminMessagesPage() {
     </div>
   );
 }
+
+

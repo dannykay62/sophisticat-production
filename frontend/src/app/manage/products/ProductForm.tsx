@@ -65,10 +65,10 @@ export default function ProductForm({ product }: { product?: AdminProductDetail 
     try {
       if (isEdit) {
         await updateProduct(product!.id, payload);
-        router.push("/admin/products");
+        router.push("/manage/products");
       } else {
         const created = await createProduct(payload);
-        router.push(`/admin/products/${created.id}`);
+        router.push(`/manage/products/${created.id}`);
       }
       router.refresh();
     } catch (err) {
@@ -207,10 +207,12 @@ export default function ProductForm({ product }: { product?: AdminProductDetail 
         <Button type="submit" disabled={saving}>
           {saving ? "Saving…" : isEdit ? "Save changes" : "Create product"}
         </Button>
-        <Button type="button" variant="secondary" onClick={() => router.push("/admin/products")}>
+        <Button type="button" variant="secondary" onClick={() => router.push("/manage/products")}>
           Cancel
         </Button>
       </div>
     </form>
   );
 }
+
+

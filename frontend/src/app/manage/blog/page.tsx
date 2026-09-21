@@ -36,7 +36,7 @@ export default function AdminBlogPage() {
         title="Blog"
         description="Manage blog posts shown on the storefront's journal."
         action={
-          <Link href="/admin/blog/new">
+          <Link href="/manage/blog/new">
             <Button>
               <Plus className="h-4 w-4" /> New post
             </Button>
@@ -85,7 +85,7 @@ export default function AdminBlogPage() {
                   <td className="px-4 py-3 text-ink/50">{new Date(post.published_at).toLocaleDateString()}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-end gap-1">
-                      <Link href={`/admin/blog/${post.id}`} title="Edit" className="p-2 text-ink/50 hover:bg-ink/5 hover:text-ink">
+                      <Link href={`/manage/blog/${post.id}`} title="Edit" className="p-2 text-ink/50 hover:bg-ink/5 hover:text-ink">
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <button onClick={() => handleDelete(post)} title="Delete" className="p-2 text-ink/30 hover:bg-red-50 hover:text-red-600">
@@ -104,3 +104,5 @@ export default function AdminBlogPage() {
     </div>
   );
 }
+
+

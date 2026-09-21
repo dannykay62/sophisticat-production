@@ -48,7 +48,7 @@ export default function AdminOrdersPage() {
       else params.set(key, value);
     });
     if (!("page" in next)) params.delete("page");
-    router.push(`/admin/orders?${params.toString()}`);
+    router.push(`/manage/orders?${params.toString()}`);
   }
 
   return (
@@ -117,11 +117,11 @@ export default function AdminOrdersPage() {
               {data.results.map((order) => (
                 <tr
                   key={order.id}
-                  onClick={() => router.push(`/admin/orders/${order.id}`)}
+                  onClick={() => router.push(`/manage/orders/${order.id}`)}
                   className="cursor-pointer border-b border-stone-line/70 last:border-0 hover:bg-cream/40"
                 >
                   <td className="px-4 py-3">
-                    <Link href={`/admin/orders/${order.id}`} className="font-medium text-ink hover:underline">
+                    <Link href={`/manage/orders/${order.id}`} className="font-medium text-ink hover:underline">
                       {order.order_number}
                     </Link>
                     <p className="text-xs text-ink/40">
@@ -155,3 +155,5 @@ export default function AdminOrdersPage() {
     </div>
   );
 }
+
+

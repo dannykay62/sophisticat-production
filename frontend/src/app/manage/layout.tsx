@@ -23,15 +23,15 @@ import { useAuthStore } from "@/lib/store/authStore";
 import Logo from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard, exact: true },
-  { label: "Products", href: "/admin/products", icon: Package },
-  { label: "Categories", href: "/admin/categories", icon: Tag },
-  { label: "Orders", href: "/admin/orders", icon: ShoppingBag },
-  { label: "Blog", href: "/admin/blog", icon: Newspaper },
-  { label: "Coupons", href: "/admin/coupons", icon: TicketPercent },
-  { label: "Messages", href: "/admin/messages", icon: Mail },
-  { label: "Reviews", href: "/admin/reviews", icon: Star },
-  { label: "Customers", href: "/admin/customers", icon: Users },
+  { label: "Dashboard", href: "/manage", icon: LayoutDashboard, exact: true },
+  { label: "Products", href: "/manage/products", icon: Package },
+  { label: "Categories", href: "/manage/categories", icon: Tag },
+  { label: "Orders", href: "/manage/orders", icon: ShoppingBag },
+  { label: "Blog", href: "/manage/blog", icon: Newspaper },
+  { label: "Coupons", href: "/manage/coupons", icon: TicketPercent },
+  { label: "Messages", href: "/manage/messages", icon: Mail },
+  { label: "Reviews", href: "/manage/reviews", icon: Star },
+  { label: "Customers", href: "/manage/customers", icon: Users },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [status, hydrate]);
 
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/login?next=/admin");
+    if (status === "unauthenticated") router.replace("/login?next=/manage");
   }, [status, router]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (status !== "authenticated") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-ink">
-        <p className="text-sm tracking-wide2 text-cream/50">Loading admin dashboard…</p>
+        <p className="text-sm tracking-wide2 text-cream/50">Loading admin dashboard...</p>
       </div>
     );
   }
@@ -167,3 +167,5 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
+
+

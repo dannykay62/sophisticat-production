@@ -61,7 +61,7 @@ export default function AdminProductsPage() {
       else params.set(key, value);
     });
     if (!("page" in next)) params.delete("page");
-    router.push(`/admin/products?${params.toString()}`);
+    router.push(`/manage/products?${params.toString()}`);
   }
 
   async function handleToggleFeatured(product: AdminProductListItem) {
@@ -93,7 +93,7 @@ export default function AdminProductsPage() {
         title="Products"
         description="Manage your catalog, pricing, stock, and which products are featured."
         action={
-          <Link href="/admin/products/new">
+          <Link href="/manage/products/new">
             <Button>
               <Plus className="h-4 w-4" /> New product
             </Button>
@@ -211,7 +211,7 @@ export default function AdminProductsPage() {
                       >
                         <Star className="h-4 w-4" fill={p.is_featured ? "currentColor" : "none"} />
                       </button>
-                      <Link href={`/admin/products/${p.id}`} title="Edit" className="p-2 text-ink/50 hover:bg-ink/5 hover:text-ink">
+                      <Link href={`/manage/products/${p.id}`} title="Edit" className="p-2 text-ink/50 hover:bg-ink/5 hover:text-ink">
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <button title="Delete" onClick={() => handleDelete(p)} className="p-2 text-ink/30 hover:bg-red-50 hover:text-red-600">
@@ -237,3 +237,5 @@ export default function AdminProductsPage() {
     </div>
   );
 }
+
+

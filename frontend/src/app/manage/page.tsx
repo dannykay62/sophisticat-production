@@ -98,33 +98,33 @@ export default function AdminDashboardPage() {
         <>
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <StatCard icon={Wallet} label="Revenue (paid orders)" value={formatNaira(stats.total_revenue)} tone="gold" />
-            <StatCard icon={ShoppingBag} label="Total orders" href="/admin/orders" value={stats.total_orders} />
+            <StatCard icon={ShoppingBag} label="Total orders" href="/manage/orders" value={stats.total_orders} />
             <StatCard
               icon={ShoppingBag}
               label="Processing"
-              href="/admin/orders?status=processing"
+              href="/manage/orders?status=processing"
               value={stats.processing_orders}
             />
-            <StatCard icon={Package} label="Active products" href="/admin/products" value={stats.total_products} />
+            <StatCard icon={Package} label="Active products" href="/manage/products" value={stats.total_products} />
             <StatCard
               icon={Sparkles}
               label="Featured products"
-              href="/admin/products?featured=true"
+              href="/manage/products?featured=true"
               value={stats.featured_products}
               tone="gold"
             />
             <StatCard
               icon={AlertTriangle}
               label="Low stock (≤10)"
-              href="/admin/products?low_stock=true"
+              href="/manage/products?low_stock=true"
               value={stats.low_stock}
               tone="red"
             />
-            <StatCard icon={Users} label="Customers" href="/admin/customers" value={stats.total_customers} />
+            <StatCard icon={Users} label="Customers" href="/manage/customers" value={stats.total_customers} />
             <StatCard
               icon={Mail}
               label="Unread messages"
-              href="/admin/messages?is_resolved=false"
+              href="/manage/messages?is_resolved=false"
               value={stats.unread_messages}
               tone="red"
             />
@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
                 <ol className="space-y-3">
                   {stats.top_products.map((p, i) => (
                     <li key={p.id} className="flex items-center justify-between text-sm">
-                      <Link href={`/admin/products`} className="flex items-center gap-2 truncate text-ink/80 hover:text-ink">
+                      <Link href={`/manage/products`} className="flex items-center gap-2 truncate text-ink/80 hover:text-ink">
                         <span className="text-ink/30">{i + 1}.</span>
                         <span className="truncate">{p.name}</span>
                       </Link>
@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <Link href="/admin/reviews?is_approved=false">
+            <Link href="/manage/reviews?is_approved=false">
               <Card className="flex items-center gap-3 hover:shadow-card">
                 <Star className="h-5 w-5 text-gold-500" strokeWidth={1.5} />
                 <div>
@@ -179,3 +179,5 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+
+

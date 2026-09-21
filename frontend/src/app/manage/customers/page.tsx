@@ -33,7 +33,7 @@ export default function AdminCustomersPage() {
       else params.set(key, value);
     });
     if (!("page" in next)) params.delete("page");
-    router.push(`/admin/customers?${params.toString()}`);
+    router.push(`/manage/customers?${params.toString()}`);
   }
 
   return (
@@ -93,3 +93,5 @@ export default function AdminCustomersPage() {
     </div>
   );
 }
+
+

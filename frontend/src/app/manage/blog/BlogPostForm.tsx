@@ -38,7 +38,7 @@ export default function BlogPostForm({ post }: { post?: AdminBlogPost }) {
         if (!imageFile) throw new Error("Please choose a cover image.");
         await createBlogPost(payload);
       }
-      router.push("/admin/blog");
+      router.push("/manage/blog");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to save post.");
@@ -91,10 +91,12 @@ export default function BlogPostForm({ post }: { post?: AdminBlogPost }) {
         <Button type="submit" disabled={saving}>
           {saving ? "Saving…" : isEdit ? "Save changes" : "Publish post"}
         </Button>
-        <Button type="button" variant="secondary" onClick={() => router.push("/admin/blog")}>
+        <Button type="button" variant="secondary" onClick={() => router.push("/manage/blog")}>
           Cancel
         </Button>
       </div>
     </form>
   );
 }
+
+

@@ -33,7 +33,7 @@ export default function AdminReviewsPage() {
       else params.set(key, value);
     });
     if (!("page" in next)) params.delete("page");
-    router.push(`/admin/reviews?${params.toString()}`);
+    router.push(`/manage/reviews?${params.toString()}`);
   }
 
   async function handleApprove(review: AdminReview, approved: boolean) {
@@ -122,3 +122,5 @@ export default function AdminReviewsPage() {
     </div>
   );
 }
+
+

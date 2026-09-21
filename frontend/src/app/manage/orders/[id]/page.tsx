@@ -60,7 +60,7 @@ export default function AdminOrderDetailPage() {
 
   return (
     <div>
-      <button onClick={() => router.push("/admin/orders")} className="mb-4 inline-flex items-center gap-1 text-sm text-ink/50 hover:text-ink">
+      <button onClick={() => router.push("/manage/orders")} className="mb-4 inline-flex items-center gap-1 text-sm text-ink/50 hover:text-ink">
         <ArrowLeft className="h-4 w-4" /> Back to orders
       </button>
 
