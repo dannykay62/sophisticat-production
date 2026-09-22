@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Pencil, Trash2, ImageOff } from "lucide-react";
+import { Plus, Pencil, Trash2, ImageOff, UploadCloud } from "lucide-react";
 import {
   listCategories,
   createCategory,
@@ -28,6 +28,8 @@ const emptyForm: FormState = { name: "", description: "", order: "0", is_active:
 
 export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<AdminCategory[] | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<AdminCategory | null>(null);
@@ -41,16 +43,27 @@ export default function AdminCategoriesPage() {
   }
 
   useEffect(load, []);
-
+  
   function openCreate() {
+    clearImagePreview();
     setEditing(null);
     setForm(emptyForm);
+    setImageFile(null);
     setModalOpen(true);
   }
 
   function openEdit(cat: AdminCategory) {
+    clearImagePreview();
+  
     setEditing(cat);
-    setForm({ name: cat.name, description: cat.description, order: String(cat.order), is_active: cat.is_active });
+    setForm({
+      name: cat.name,
+      description: cat.description,
+      order: String(cat.order),
+      is_active: cat.is_active,
+    });
+    setImageFile(null);
+    setImagePreview(cat.image || null);
     setModalOpen(true);
   }
 
@@ -60,8 +73,13 @@ export default function AdminCategoriesPage() {
     setError(null);
     try {
       const payload = { name: form.name, description: form.description, order: Number(form.order), is_active: form.is_active };
-      if (editing) await updateCategory(editing.id, payload);
-      else await createCategory(payload);
+      if (editing) {
+        await updateCategory(editing.id, payload, imageFile);
+      } else {
+        await createCategory(payload, imageFile);
+      }
+      clearImagePreview();
+      setImageFile(null);
       setModalOpen(false);
       load();
     } catch (err) {
@@ -69,6 +87,18 @@ export default function AdminCategoriesPage() {
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+  
+    if (imagePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(imagePreview);
+    }
+  
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
   }
 
   async function handleDelete(cat: AdminCategory) {
@@ -79,6 +109,13 @@ export default function AdminCategoriesPage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to delete — it may still have products assigned.");
     }
+  }
+
+  function clearImagePreview() {
+    if (imagePreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setImagePreview(null);
   }
 
   return (
@@ -156,7 +193,15 @@ export default function AdminCategoriesPage() {
         )}
       </Card>
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? "Edit category" : "New category"}>
+      <Modal
+        open={modalOpen}
+        onClose={() => {
+          clearImagePreview();
+          setImageFile(null);
+          setModalOpen(false);
+        }}
+        title={editing ? "Edit category" : "New category"}
+      >
         <form onSubmit={handleSubmit} className="space-y-4">
           <Field label="Name">
             <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
@@ -167,6 +212,40 @@ export default function AdminCategoriesPage() {
           <Field label="Display order">
             <Input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: e.target.value })} />
           </Field>
+          <div>
+            <p className="mb-2 text-sm font-medium text-ink">Category image</p>
+          
+            <div className="flex items-start gap-4">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden border border-stone-line bg-ink/5">
+                {imagePreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={imagePreview}
+                    alt="Category preview"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <ImageOff className="h-5 w-5 text-ink/20" />
+                  </div>
+                )}
+              </div>
+          
+              <label className="flex h-24 flex-1 cursor-pointer flex-col items-center justify-center gap-1 border border-dashed border-stone-line text-ink/40 hover:border-ink/30 hover:text-ink/60">
+                <UploadCloud className="h-5 w-5" />
+                <span className="text-xs">
+                  {imageFile ? "Change image" : "Choose image"}
+                </span>
+                <span className="text-[10px]">JPG, PNG or WebP</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+            </div>
+          </div>
           <label className="flex items-center gap-2 text-sm text-ink/80">
             <input
               type="checkbox"

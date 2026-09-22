@@ -40,12 +40,53 @@ export function listCategories() {
   return apiFetch<AdminCategory[]>("/admin/categories/");
 }
 
-export function createCategory(data: Partial<Omit<AdminCategory, "id" | "slug" | "product_count">>) {
-  return apiFetch<AdminCategory>("/admin/categories/", { method: "POST", body: data });
+export function createCategory(
+  data: Partial<Omit<AdminCategory, "id" | "slug" | "product_count">>,
+  image?: File | null,
+) {
+  if (image) {
+    const form = new FormData();
+    form.append("name", data.name ?? "");
+    form.append("description", data.description ?? "");
+    form.append("order", String(data.order ?? 0));
+    form.append("is_active", String(data.is_active ?? true));
+    form.append("image", image);
+
+    return apiFetch<AdminCategory>("/admin/categories/", {
+      method: "POST",
+      body: form,
+    });
+  }
+
+  return apiFetch<AdminCategory>("/admin/categories/", {
+    method: "POST",
+    body: data,
+  });
 }
 
-export function updateCategory(id: string, data: Partial<Omit<AdminCategory, "id" | "slug" | "product_count">>) {
-  return apiFetch<AdminCategory>(`/admin/categories/${id}/`, { method: "PATCH", body: data });
+export function updateCategory(
+  id: string,
+  data: Partial<Omit<AdminCategory, "id" | "slug" | "product_count">>,
+  image?: File | null,
+) {
+  if (image) {
+    const form = new FormData();
+    form.append("name", data.name ?? "");
+    form.append("description", data.description ?? "");
+    form.append("order", String(data.order ?? 0));
+    form.append("is_active", String(data.is_active ?? true));
+    form.append("image", image);
+
+    return apiFetch<AdminCategory>(`/admin/categories/${id}/`, {
+      method: "PATCH",
+      body: form,
+    });
+  }
+
+  return apiFetch<AdminCategory>(`/admin/categories/${id}/`, {
+    method: "PATCH",
+    body: data,
+  });
 }
 
 export function deleteCategory(id: string) {
