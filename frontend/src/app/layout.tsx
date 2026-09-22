@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   keywords: [
     "Sophisticat",
     "Sophisticat Beauty Studio",
-    "jewelry Nigeria",
-    "beaded bracelets Lagos",
-    "turbans Nigeria",
+    "jewelry Chicago",
+    "beaded bracelets Chicago",
+    "turbans Chicago",
     "African prints",
     "Ankara designs",
   ],

@@ -56,8 +56,8 @@ function RegisterForm() {
   return (
     <div className="grid min-h-[calc(100vh-116px)] grid-cols-1 lg:grid-cols-2">
       <div className="relative hidden lg:block">
-        <ProductImage imageKey="jewelry" alt="Sophisticat jewelry collection" ratio="h-full" className="!aspect-auto" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+        <ProductImage imageKey="jewelry" src="/images/sophisticat_hero.png" alt="Sophisticat jewelry collection" ratio="h-full" className="!aspect-auto" />
+        {/* <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" /> */}
         <div className="absolute bottom-16 left-16">
           <span className="eyebrow-on-dark">Jewelry Collection</span>
           <h2 className="mt-3 text-display-md text-cream">Sign Up To Join Us</h2>

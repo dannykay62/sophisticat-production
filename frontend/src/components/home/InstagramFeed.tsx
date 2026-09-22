@@ -50,7 +50,6 @@ export default function InstagramFeed() {
             href={post.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`View Sophisticat Instagram post ${index + 1}`}
             className="group relative block overflow-hidden rounded-sm"
           >
             <ProductImage
@@ -58,8 +57,7 @@ export default function InstagramFeed() {
               alt={`Sophisticat Instagram post ${index + 1}`}
               ratio="aspect-square"
             />
-
-            {/* Hover Overlay */}
+        
             <div className="absolute inset-0 flex items-center justify-center bg-ink/0 transition-all duration-300 group-hover:bg-ink/45">
               <FaInstagram className="h-6 w-6 text-cream opacity-0 transition-all duration-300 group-hover:scale-110 group-hover:opacity-100" />
             </div>
