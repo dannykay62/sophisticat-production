@@ -31,7 +31,7 @@ export default function AboutPage() {
           <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "About" }]} />
           <div className="mt-10 grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
             <div>
-              <span className="eyebrow">Est. Lagos, Nigeria</span>
+              <span className="eyebrow">Est. Chicago, USA</span>
               <h1 className="mt-4 text-display-xl text-ink">
                 Beauty, elegance,
                 <br />
@@ -41,7 +41,7 @@ export default function AboutPage() {
                 Sophisticat began with a simple belief: that Nigerian women
                 deserve jewelry, bracelets, turbans, and prints that rival
                 the world&apos;s most celebrated houses — without leaving
-                home to find them. Every piece we curate is chosen in Lagos,
+                home to find them. Every piece we curate is chosen in Chicago,
                 for the way you actually live.
               </p>
               <Link href="/shop" className="btn-primary mt-8 inline-flex">
